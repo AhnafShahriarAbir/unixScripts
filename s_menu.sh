@@ -11,6 +11,8 @@ ledName=""
 
 ######################### Task 2 ##################################
 
+#Displays the fist menu
+
 menu(){
 	clear
 	$PRINTF "\n"
@@ -21,6 +23,8 @@ menu(){
 	
 	cd $DIR
 	list=1
+	
+	#Looks for all the folders in DIR=/sys/class/leds and prints then one by one in line
 	for i in $( ls );
 	do
 		echo "$list." $i
@@ -33,11 +37,15 @@ menu(){
 
 ######################### Task 3 ##################################
 
+#This is the option menu where users can choose their number and the following codes will lead it to them
+
 readOptions(){
 	read num
 	case $num in
 		
-		1) var=`ls | awk 'NR==1'`
+		1) #lists all the folders and chooses the first one	
+
+		   var=`ls | awk 'NR==1'`
 		   cd $DIR/$var
 		   ledName="$var"
 		   readSecondMenu ;;
@@ -69,6 +77,8 @@ readOptions(){
 	esac
 }
 
+#This is the second menu and shows the ledname that was set in the previous option.
+
 secondMenu(){
 	clear
 	$PRINTF "\n"
@@ -87,20 +97,32 @@ secondMenu(){
 
 ######################### Task 4 ##################################
 
+#This is the second options and the changes will be made according to users selection
 readOptions2(){
 	read num2
 	case $num2 in
-		1) 
+		1)
+		 
+		#writes 1 to brightness files to turn on 
+		 
 		   sudo sh -c "echo 1 > ./brightness"
 		   echo "Turing on..."
 		   echo "Done" ;;
 		
-		2) sudo sh -c "echo 0 > ./brightness"
+		2) 
+		   #writes 0 to brightness files to turn off
+		   
+		   sudo sh -c "echo 0 > ./brightness"
 		   echo "Turning off..."   
 		   echo "Done" ;;
 		   
-		3) readThirdMenu ;;
-		   
+		3) 
+		#shows readThirdMenu on selection of 3
+		 
+		readThirdMenu ;;
+		  
+		 #Sets QUIT value to 2 which exits the loop
+		  
 		6) QUIT2=2 && $SLEEP 1 ;;
 		
 		*) echo Invalid option && $SLEEP 2;;
@@ -108,6 +130,8 @@ readOptions2(){
 }
 
 ######################### Task 5 ##################################
+
+#shows associated led with system event menu
 
 associateLedMenu(){
 		echo
@@ -127,6 +151,8 @@ associateLedMenu(){
 		echo "Please select an option (1-$list):"
 
 }
+
+#links with the led options
 associateLedOptions(){
 
 	read num3
@@ -140,6 +166,7 @@ associateLedOptions(){
 	esac
 }
 
+#enters into first loop until QUIT3 is equal 0
 readThirdMenu(){
 	QUIT3=0
 	while [ $QUIT3 -eq 0 ]
@@ -149,6 +176,8 @@ readThirdMenu(){
 	done
 		
 }
+
+#enters into first loop until QUIT2 is equal 0
 readSecondMenu(){
 	
 	QUIT2=0
@@ -159,6 +188,7 @@ readSecondMenu(){
 	done
 }
 
+#enters into first loop until QUIT is equal 0
 while [ $QUIT -eq 0 ] 
 	do 
 		menu
