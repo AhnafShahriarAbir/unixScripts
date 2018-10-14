@@ -123,7 +123,7 @@ readOptions2(){
 		  
 		  
 		4) sh s_task6.sh ;;
-		5) stopProcess ;;
+		5) readFourthMenu ;;
 		
 		6)  #Sets QUIT value to 2 which exits the loop 
 		    QUIT2=2 && $SLEEP 1 ;;
@@ -170,6 +170,36 @@ associateLedOptions(){
 		*) echo Invalid option && $SLEEP 2 ;;
 	esac
 }
+
+processOptions(){
+	read psName
+	
+	PID=pidof $psName
+	
+	kill -9 $PID
+	echo "$psName killed"
+	
+}
+process(){
+	list=1
+	for i in `ps`;
+	do 
+		echo "$list)" $i
+		list=$(expr $list + 1)
+	done 
+	echo "Type the process you want to kill: "
+	
+
+}
+readFourthMenu(){
+	QUIT4=0
+	while [ $QUIT4 -eq 0 ]
+	do
+		process
+		processOptions
+	done
+}
+
 
 #enters into first loop until QUIT3 is equal 0
 readThirdMenu(){
