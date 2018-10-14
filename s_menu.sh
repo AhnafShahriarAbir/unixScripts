@@ -117,13 +117,16 @@ readOptions2(){
 		   echo "Done" ;;
 		   
 		3) 
-		#shows readThirdMenu on selection of 3
+		   #shows readThirdMenu on selection of 3
 		 
-		readThirdMenu ;;
+		   readThirdMenu ;;
 		  
-		 #Sets QUIT value to 2 which exits the loop
 		  
-		6) QUIT2=2 && $SLEEP 1 ;;
+		4) sh s_task6.sh ;;
+		5) stopProcess ;;
+		
+		6)  #Sets QUIT value to 2 which exits the loop 
+		    QUIT2=2 && $SLEEP 1 ;;
 		
 		*) echo Invalid option && $SLEEP 2;;
 	esac
@@ -144,7 +147,8 @@ associateLedMenu(){
 		for i in $( cat trigger );
 		do
 			
-			echo "$list)" $i
+			echo "$list)" $i | more
+			
 			list=$(expr $list + 1)
 		done
 		echo "$list)Quit to previous menu"
@@ -156,13 +160,14 @@ associateLedMenu(){
 associateLedOptions(){
 
 	read num3
-	listM=`expr $list - 1`
+	listM=$(expr $list - 1)
+	
 	case $num3 in
-		[1-$listM]*) echo "You have choosen $num3" ;;
+		[1-32]) echo "You have choosen $num3" && $SLEEP 1 ;;
 		
 		$list) QUIT3=2 && $SLEEP 1 ;;
 		
-		*)echo Invalid option && $SLEEP 2;;
+		*) echo Invalid option && $SLEEP 2 ;;
 	esac
 }
 
